@@ -74,6 +74,7 @@ public class CapacitorZip {
             zipFile.setRunInThread(true);
             zipFile.extractAll(destination);
 
+            final String finalDestination = destination;
             Thread progressThread = new Thread(() -> {
                 // update the progress
                 while (!progressMonitor.getState().equals(ProgressMonitor.State.READY)) {
@@ -85,23 +86,33 @@ public class CapacitorZip {
                     try {
                         Thread.sleep(100);
                     } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                        e.printStackTrace();
                     }
+                }
+
+                if (progressMonitor.getResult().equals(ProgressMonitor.Result.SUCCESS)) {
+                    System.out.println("Successfully added folder to zip");
+                    JSObject ret = new JSObject();
+                    ret.put("message", ErrorCodes.SUCCESS);
+                    ret.put("uri", "file://" + finalDestination);
+                    call.resolve(ret);
+                } else if (progressMonitor.getResult().equals(ProgressMonitor.Result.ERROR)) {
+                    System.out.println("Error occurred. Error message: " + progressMonitor.getException().getMessage());
+                    call.reject(progressMonitor.getException().getMessage());
+                } else if (progressMonitor.getResult().equals(ProgressMonitor.Result.CANCELLED)) {
+                    System.out.println("Task cancelled");
+                    call.reject("Canceled");
+                }
+
+                try {
+                    zipFile.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             });
             progressThread.start();
-
-            zipFile.close();
-
-            JSObject ret = new JSObject();
-            ret.put("message", ErrorCodes.SUCCESS);
-            ret.put("uri", "file://" + destination);
-            call.resolve(ret);
         } catch (ZipException e) {
             call.reject("Zip Error Occurred", ErrorCodes.UNKNOWN_ERROR, e);
-            e.printStackTrace();
-        } catch (IOException e) {
-            call.reject("Error Occurred", ErrorCodes.UNKNOWN_ERROR, e);
             e.printStackTrace();
         }
     }
