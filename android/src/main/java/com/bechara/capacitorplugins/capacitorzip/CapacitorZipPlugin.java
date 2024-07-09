@@ -8,6 +8,7 @@ import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
 import com.getcapacitor.annotation.Permission;
 import com.getcapacitor.annotation.PermissionCallback;
+import com.getcapacitor.JSObject;
 
 @CapacitorPlugin(
     name = "CapacitorZip",
@@ -24,16 +25,25 @@ public class CapacitorZipPlugin extends Plugin {
         if (getPermissionState("storage") != PermissionState.GRANTED) {
             requestPermissionForAlias("storage", call, "storagePermissionCallback");
         } else {
-            implementation.unzipFile(call);
+            unzipFile(call);
         }
     }
 
     @PermissionCallback
     private void storagePermissionCallback(PluginCall call) {
         if (getPermissionState("storage") == PermissionState.GRANTED) {
-            implementation.unzipFile(call);
+            unzipFile(call);
         } else {
             call.reject("Permission is required to access storage", ErrorCodes.NO_PERMISSION);
         }
+    }
+
+    private void unzipFile(PluginCall call) {
+        implementation.unzipFile(call, new ZipResultCallback() {
+            @Override
+            public void progress(JSObject pObj) {
+                notifyListeners("onProgress", pObj);
+            }
+        });
     }
 }

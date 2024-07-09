@@ -23,7 +23,9 @@ Make sure to add the following permissions in the application android manifest.x
 <docgen-index>
 
 * [`unzip(...)`](#unzip)
+* [`addListener('onProgress', ...)`](#addlisteneronprogress)
 * [Interfaces](#interfaces)
+* [Type Aliases](#type-aliases)
 
 </docgen-index>
 
@@ -36,11 +38,31 @@ Make sure to add the following permissions in the application android manifest.x
 unzip(options: UnzipOptions) => Promise<UnzipResult>
 ```
 
-| Param         | Type                                                  |
-| ------------- | ----------------------------------------------------- |
-| **`options`** | <code><a href="#unzipoptions">UnzipOptions</a></code> |
+unzip a zip file
+
+| Param         | Type                                                  | Description   |
+| ------------- | ----------------------------------------------------- | ------------- |
+| **`options`** | <code><a href="#unzipoptions">UnzipOptions</a></code> | unzip options |
 
 **Returns:** <code>Promise&lt;<a href="#unzipresult">UnzipResult</a>&gt;</code>
+
+--------------------
+
+
+### addListener('onProgress', ...)
+
+```typescript
+addListener(eventName: 'onProgress', listenerFunc: ProgressHandler) => Promise<PluginListenerHandle>
+```
+
+Listens for screen orientation changes.
+
+| Param              | Type                                                        | Description       |
+| ------------------ | ----------------------------------------------------------- | ----------------- |
+| **`eventName`**    | <code>'onProgress'</code>                                   | event name        |
+| **`listenerFunc`** | <code><a href="#progresshandler">ProgressHandler</a></code> | listener function |
+
+**Returns:** <code>Promise&lt;<a href="#pluginlistenerhandle">PluginListenerHandle</a>&gt;</code>
 
 --------------------
 
@@ -63,5 +85,33 @@ unzip(options: UnzipOptions) => Promise<UnzipResult>
 | **`source`**      | <code>string</code> |
 | **`destination`** | <code>string</code> |
 | **`password`**    | <code>string</code> |
+
+
+#### PluginListenerHandle
+
+| Prop         | Type                                      |
+| ------------ | ----------------------------------------- |
+| **`remove`** | <code>() =&gt; Promise&lt;void&gt;</code> |
+
+
+#### Progress
+
+<a href="#progress">Progress</a> object
+
+| Prop           | Type                |
+| -------------- | ------------------- |
+| **`progress`** | <code>number</code> |
+| **`current`**  | <code>string</code> |
+| **`task`**     | <code>string</code> |
+
+
+### Type Aliases
+
+
+#### ProgressHandler
+
+<a href="#progress">Progress</a> handler
+
+<code>(progress: <a href="#progress">Progress</a>): void</code>
 
 </docgen-api>
