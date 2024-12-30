@@ -7,7 +7,7 @@ Work in progress. Zip and Unzip files on android. Based on Zip4j library. Zip fu
 ## Install
 
 ```bash
-npm install capacitor-zip
+npm install @topsci/capacitor-zip
 npx cap sync
 ```
 
