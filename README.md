@@ -11,7 +11,8 @@ npm install @topsci/capacitor-zip
 npx cap sync
 ```
 
-## Android permissions
+## Android permissions 
+**Not Required**
 Make sure to add the following permissions in the application android manifest.xml
 ```xml
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
@@ -38,7 +39,11 @@ Make sure to add the following permissions in the application android manifest.x
 unzip(options: UnzipOptions) => Promise<UnzipResult>
 ```
 
-unzip a zip file
+unzip a zip file.  
+
+**Note:**  
+This plugin **_does not_** request external storage permissions, so 
+please be careful when you set the option's `source` and `destination`!
 
 | Param         | Type                                                  | Description   |
 | ------------- | ----------------------------------------------------- | ------------- |

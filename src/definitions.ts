@@ -22,7 +22,12 @@ export type ProgressHandler = (progress: Progress) => void;
 
 export interface CapacitorZipPlugin {
   /**
-   * unzip a zip file
+   * unzip a zip file.  
+   * 
+   * **Note:**  
+   * This plugin **_does not_** request external storage permissions, so 
+   * please be careful when you set the option's `source` and `destination`!
+   * 
    * @param options unzip options
    */
   unzip(options: UnzipOptions): Promise<UnzipResult>;

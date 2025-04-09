@@ -1,6 +1,6 @@
 {
   "name": "@topsci/capacitor-zip",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Unzip files on android. Tested on cap v6. Based on Zip4j library.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
